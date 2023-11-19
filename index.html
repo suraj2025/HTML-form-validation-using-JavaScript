@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Form Validation</title>
+    <style>
+        body {
+            background-image: url("bg.jpg");
+        }
+
+        .container {
+            background: rgba(131, 224, 224, 0.293);
+            width: fit-content;
+            margin: 5px auto;
+            padding: 20px;
+            margin-top: 20vh;
+            box-shadow: 0 0 20px aqua;
+
+        }
+
+        th,
+        td {
+            padding: 10px;
+
+        }
+
+        button {
+            width: 100%;
+            padding: 5px;
+            border: none;
+            border-radius: 10px;
+            background: aqua;
+            color: black;
+            font-weight: bold;
+            box-shadow: 0 0 20px white;
+            padding: 10px 20px;
+        }
+
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+
+            border: none;
+            border-radius: 4px;
+            width: 100%;
+            padding: 10px;
+
+            box-sizing: border-box;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+
+        button:hover {
+            text-decoration: 2px underline rgb(224, 10, 235);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <div class="container">
+            <form id="myForm" action="https://vitbhopal.ac.in/">
+                <table>
+                    <tr>
+                        <td><label for="username">Username:</label></td>
+                        <td><input type="text" id="username" name="username" required>
+                            <span class="error" id="usernameError"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="password">Password:</label></td>
+                        <td><input type="password" id="password" name="password" required>
+                            <span class="error" id="passwordError"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="email">Email:</label></td>
+                        <td><input type="email" id="email" name="email" required>
+                            <span class="error" id="emailError"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="phone">Phone Number:</label></td>
+                        <td> <input type="tel" id="phone" name="phone" required>
+                            <span class="error" id="phoneError"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="pincode">PIN Code:</label></td>
+                        <td><input type="number" id="pincode" name="pincode" required>
+                            <span class="error" id="pincodeError"></span>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td colspan="2"> <button type="submit">Submit</button></td>
+
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </center>
+
+
+    <script>
+
+        const form = document.getElementById('myForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const pincodeInput = document.getElementById('pincode');
+
+        const usernameError = document.getElementById('usernameError');
+        const passwordError = document.getElementById('passwordError');
+        const emailError = document.getElementById('emailError');
+        const phoneError = document.getElementById('phoneError');
+        const pincodeError = document.getElementById('pincodeError');
+
+        let isValid = true;
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+
+            // Validate username
+            if (usernameInput.value.length < 3 || usernameInput.value.length > 15) {
+                usernameError.textContent = 'User Name must be between 3 and 15 characters';
+                isValid = false;
+                
+            } else {
+                usernameError.textContent = '';
+            }
+
+            // Validate password
+            const regex_pwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&^])[A-Za-z\d@.#$!%*?&]{8,15}$/;
+            if (!regex_pwd.test(passwordInput.value)) {
+                passwordError.textContent = 'Password must contain atleast 1 Uppercase, 1 Lowercase, 1 Digit, and 1 symbol (like @#$!%^&*.)';
+                isValid = false;
+            } else {
+                passwordError.textContent = '';
+            }
+
+            // Validate email
+            const validateEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            if (!validateEmail.test(emailInput.value)) {
+                emailError.textContent = 'Please enter a valid email address';
+                isValid = false;
+            } else {
+                emailError.textContent = '';
+            }
+
+            // Validate phone number
+            const regexPhone = /^[7,8,9][0-9]{9}$/;
+            if (!regexPhone.test(phoneInput.value)) {
+                phoneError.textContent = 'Please enter a valid 10-digit phone number';
+                isValid = false;
+
+            } else {
+                phoneError.textContent = '';
+
+            }
+            // Validate PIN code
+            const regexPincode = /^[1-9]{1}[0-9]{4}/;
+            if (!regexPincode.test(pincodeInput.value)) {
+                pincodeError.textContent = 'Please enter a valid 6-digit PIN code';
+                isValid = false;
+            } else {
+                pincodeError.textContent = '';
+            }
+            // Submit the form if all validations pass
+            if (isValid) {
+                // Submit the form
+
+                form.submit();
+            }
+        });
+
+    </script>
+</body>
+
+</html>
